@@ -6,12 +6,12 @@ public class Vertice {
 	
 	private int numero;
 	
-	private ArrayList<Integer> numeroDosVerticesAdjacentes;
+	private ArrayList<Vertice> numeroDosVerticesAdjacentes;
 	
-	private String cor = "";
+	private int cor = 0;
 	
 	public Vertice(int numero) {
-		this.numeroDosVerticesAdjacentes = new ArrayList<Integer>();
+		this.numeroDosVerticesAdjacentes = new ArrayList<Vertice>();
 		this.numero = numero;
 	}
 
@@ -23,22 +23,19 @@ public class Vertice {
 		this.numero = numero;
 	}
 
-	public ArrayList<Integer> getVerticesAdjacentes() {
+	public ArrayList<Vertice> getVerticesAdjacentes() {
 		return this.numeroDosVerticesAdjacentes;
 	}
 
-	public void adicionarVerticeAdjacente(Integer numeroDoVertice) {
+	public void adicionarVerticeAdjacente(Vertice numeroDoVertice) {
 		this.numeroDosVerticesAdjacentes.add(numeroDoVertice);
 	}
 
-	public String getCor() {
+	public int getCor() {
 		return cor;
 	}
 
-	public void setCor(String cor) {
+	public void setCor(int cor) {
 		this.cor = cor;
 	}
-	
-	
-
 }

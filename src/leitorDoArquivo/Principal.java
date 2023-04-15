@@ -19,37 +19,84 @@ public class Principal {
 		int nVertices = Integer.parseInt(linha1[0]);
 		int nArestas = Integer.parseInt(linha1[1]);
 		
-		List<Vertice> verticesDoGrafo = new ArrayList<Vertice>(); // Lista com todos os vertices do grafo
+		List<Vertice> verticesDoGrafo = criarListaDeVerticesDoGrafo(nVertices);
 		
-		Vertice verticeAtual; // Variavel que será usada para armazer cada vertice em cada iteracao
-		for(int i = 0; i < nVertices; i++) {
+		for(Vertice verticeAtual : verticesDoGrafo) {
 			String[] linha = bReader.readLine().split(" ");
-			verticeAtual = new Vertice(i+1); // criando o vertice atual e definindo qual vai ser o seu numero
-			for(int j = 0; j < nVertices; j++) { // verifica cada posicao da linha lida
-				if (linha[j].equalsIgnoreCase("1")) { // verifica se o caractere na posicao atual e igual a um, se for, ele adiciona 
-													  // aquela posicao na lista de vertices do vertice atual 
-					verticeAtual.adicionarVerticeAdjacente(j+1);
+			for(int i = 0; i < linha.length; i++) {
+				if(linha[i].equalsIgnoreCase("1")) {
+					verticeAtual.adicionarVerticeAdjacente(verticesDoGrafo.get(i));
 				}
 			}
-			verticesDoGrafo.add(verticeAtual); // no fim, adiciona o vertice em questao a lista de vertices do grafo
 		}
 		
+		for(Vertice verticeAtual : verticesDoGrafo) {
+			coloreVertice(verticeAtual);
+		}
 		
 		mostrarVerticesESuasArestas(verticesDoGrafo, nVertices);
+		reader.close();
+		bReader.close();
+	}
+	
+	public static List<Vertice> criarListaDeVerticesDoGrafo(int quantidadeDeVertices){
+		List<Vertice> verticesDoGrafo = new ArrayList<Vertice>();
+		for(int i = 1; i <= quantidadeDeVertices; i++ ) {
+			verticesDoGrafo.add(new Vertice(i));
+		}
+		return verticesDoGrafo;
+	}
+	
+	public static Vertice escolherVerticeDeMaiorGrau(List<Vertice> verticesDoGrafo) {
+		Vertice VerticeDeAtualMaiorGrau = verticesDoGrafo.get(0);
+		for(Vertice verticeAtual : verticesDoGrafo) {
+			if(verticeAtual.getVerticesAdjacentes().size() > VerticeDeAtualMaiorGrau.getVerticesAdjacentes().size()) {
+				VerticeDeAtualMaiorGrau = verticeAtual;
+			}
+		}
+		return VerticeDeAtualMaiorGrau;
+	}
+	
+	
+	
+	public static void coloreVertice(Vertice verticeASerColorido) {
+		if (verticeASerColorido.getCor() == 0) {
+			List<Vertice> verticesAdjacentesDoVerticeASerColorido = verticeASerColorido.getVerticesAdjacentes();
+			int corDisponivel = 1;
+			for(;corDisponivel <= verticesAdjacentesDoVerticeASerColorido.size(); corDisponivel++) {
+				for(Vertice verticeAtual : verticesAdjacentesDoVerticeASerColorido) {
+					if(verticeAtual.getCor() == corDisponivel) {
+					}
+					else {
+						verticeASerColorido.setCor(corDisponivel);
+					}
+				}
+			}
+		
+		}
 	}
 	
 	public static void mostrarVerticesESuasArestas(List<Vertice> verticesDoGrafo, int n) {
+		
+		/*
 		for(int i = 0; i < n; i++) {
 			Vertice verticeAtual = verticesDoGrafo.get(i);
-			System.out.print(getColor(i));
-			System.out.print("Vertice " + Integer.toString(verticeAtual.getNumero()) + ": ");
-			System.out.print(getColor(5));
+			System.out.print(getColor(i+1));
+			System.out.print("Vertice " + Integer.toString(verticeAtual.getNumero()) + ": " + getColor(0));
 			for(int j = 0; j < verticeAtual.getVerticesAdjacentes().size(); j++) {
-				System.out.print(getColor(j));
-				System.out.print(verticeAtual.getVerticesAdjacentes().get(j) + " ");
-				System.out.print(getColor(5));
+				System.out.print(getColor(verticeAtual.getVerticesAdjacentes().get(j).getNumero()));
+				System.out.print(verticeAtual.getVerticesAdjacentes().get(j).getNumero() + " " + getColor(0));
 			}
 			System.out.print("\n");
+		}
+		*/
+		
+		for(Vertice verticeAtual : verticesDoGrafo) {
+			System.out.print(getColor(verticeAtual.getCor()) + "Vertice " + verticeAtual.getNumero() + ": " + getColor(0));
+			for(Vertice verticeAdjacente : verticeAtual.getVerticesAdjacentes()) {
+				System.out.print(getColor(verticeAdjacente.getCor()) + verticeAdjacente.getNumero() + " ");
+			}
+			System.out.println();
 		}
 	}
 	
@@ -66,10 +113,8 @@ public class Principal {
 	    String ANSI_WHITE = "\u001B[37m";
 		
         switch (i) {
-            case 0:
-                return ANSI_BLUE;
             case 1:
-                return  ANSI_GREEN;
+                return  ANSI_GREEN; // green
             case 2:
                 return ANSI_CYAN;
             case 3:
@@ -79,8 +124,10 @@ public class Principal {
             case 5:
             	return ANSI_RED;
             case 6:
-            	return ANSI_BLACK;
+            	return ANSI_BLUE;
             case 7:
+            	return ANSI_BLACK;
+            case 8:
             	return ANSI_WHITE;
             default:
                 return ANSI_RESET;
