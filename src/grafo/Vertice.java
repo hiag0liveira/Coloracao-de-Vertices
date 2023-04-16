@@ -8,7 +8,8 @@ public class Vertice {
 	
 	private ArrayList<Vertice> numeroDosVerticesAdjacentes;
 	
-	private int cor = 0;
+	private int cor = 0;  // Todo vertice criado possui sua cor inicial como zero
+						  // com o objetivo de informar que esse vertice não possui cor valida
 	
 	public Vertice(int numero) {
 		this.numeroDosVerticesAdjacentes = new ArrayList<Vertice>();
