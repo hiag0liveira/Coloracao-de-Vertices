@@ -1,4 +1,4 @@
-// 
+// Bruno Nascimento e Hiago de Oliveira 
 package grafo;
 
 import java.io.BufferedReader;
